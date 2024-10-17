@@ -15,11 +15,14 @@
     <h1>these are my notes</h1>
     
     <ul>
-        <li>
-            <a href="./24-15-10">24-15-10</a>
-        </li>
+        <li><a href="./24-10-15">24-10-15</a></li>
+        <li><a href="./24-10-17">24-10-17</a></li>
     </ul>
 
+    <br>
+    <br>
+
+    <a href="../">go back</a>
     
     <script>
         const h1 = document.querySelector('h1');
@@ -35,6 +38,27 @@
 
         h1.textContent = '';
         spans.forEach(span => h1.appendChild(span));
+
+
+        const links = document.querySelectorAll('ul a');
+        
+        links.forEach(link => {
+            const href = link.href;
+            
+            fetch(href)
+                .then(res => {
+                    if(!res.ok) {
+                        throw new Error('oh no');
+                    }
+
+                    return res.text();
+                })
+                .then(text => {                    
+                    const title = text.match(/<title>(.*)<\/title>/)[1];
+                        link.textContent += `- ${title}`;
+                })
+                .catch(err => link.innerHTML += '- oh noooo<sup>ooooo</sup>')
+        });
     </script>
 </body>
 </html>

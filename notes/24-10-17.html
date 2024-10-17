@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>im sad</title>
+
+    <meta name="description" content="i'm sad. i'm sad and i'm making a note about it." />
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        #forgor {
+            font-family: cursive;
+            font-size: 1.5rem;
+
+            transition: opacity 1s;
+        }
+
+        #forgor:hover {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body bgcolor="sad">
+    <p>Yesterday i <span id="forgor">𝓯𝓸𝓻𝓰𝓸𝓽</span> to make a note in my daily notes</p>
+    <p>It was supposed to be a daily thing</p>
+    <p>But i <span id="forgor">𝓯𝓸𝓻𝓰𝓸𝓽</span> to make a note</p>
+    <sub>why did i forgor?</sub>
+    <font face="cursive" size="2">
+        <sub family="cursive">my poor note</sub>
+    </font>
+
+    <br/>
+    <br/>
+
+    <h2>so i'm making one now</h2>
+
+    <br>
+    <br>
+    <br>
+
+    <sub>let's see if i can keep this up</sub>
+    <sub><sub>
+        i hope i can
+    </sub></sub>
+
+    <br>
+    
+
+    <a href="../notes">
+        go back
+    </a>
+
+    <script>
+        const h2 = document.querySelector('h2');
+        const text = h2.textContent;
+        const letters = text.split('');
+        const spans = letters.map(letter => {
+            const span = document.createElement('span');
+            span.textContent = letter;
+            return span;
+        });
+
+        h2.textContent = '';
+        spans.forEach(span => h2.appendChild(span));
+    </script>
+</body>
+</html>
