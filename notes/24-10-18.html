@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>what am i doing?</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #79A9D1;
+            font-family: 'Lexend Deca', sans-serif;
+            font-size: 2rem;
+        }
+
+        rotate,
+        run {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes run {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(1000vw);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>what am i doing?</h1>
+    <p>i'm not sure what i want</p>
+
+    <br>
+    <br>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;why am i <rotate>doing this</rotate>?</p>
+    
+    <p>where am i <run>going</run>?</p>
+
+    <br>
+    <br>
+
+    <p width="100%">what am i supposed to <rotate>do</rotate>?</>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+
+    <repeat>why?</repeat>
+
+    <br>
+    <br>
+
+    <font size="5">
+        <a href="../">go back</a>
+    </font>
+
+    <script>
+        const rotate = document.querySelectorAll('rotate');
+        rotate.forEach(e => {
+            e.addEventListener("mouseover", () => {
+                e.style.animation = 'rotate 3s linear infinite';
+            });
+        });
+
+        const run = document.querySelectorAll('run');
+        run.forEach(e => {
+            e.addEventListener("mouseover", () => {
+                e.style.animation = 'run 60s linear forwards';
+            });
+        })
+
+        const repeat = document.querySelectorAll('repeat');
+        let interval;
+        repeat.forEach(e => {
+            e.addEventListener("mouseover", () => {
+                if(interval) clearInterval(interval);
+                interval = setInterval(() => {
+                    e.parentNode.insertBefore(e.cloneNode(true), e);
+                }, 100);
+            });
+        })
+    </script>
+</body>
+</html>
