@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>minecraft 2</title>
+
+    <style>
+        @font-face {
+            font-family: "mine";
+            src: url("font.ttf");
+        }
+
+        body {
+            background-color: #6EB1FF;
+            color: white;
+            font-family: "mine";
+        }
+
+        h1 {
+            font-weight: normal;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>I've been playing Minecraft lately</h1>
+
+    <p>It's a fun game</p>
+    <b><p>so I made it for you</p></b>
+
+    <br>
+    <br>
+
+    <table></table>
+    <div style="width: 100%">
+        <span>move with arrows - break with click</span
+    </div>
+
+    <br>
+    <br>
+
+    <a href="../">go back</a>
+
+    <script>
+        const table = document.querySelector('table');
+        const a = document.querySelector('a');
+
+        const game = {
+            blocks: [],
+            trees: 30,
+            player: {
+                x: 10,
+                y: 4,
+            },
+            fps: 3,
+            colorMap: {
+                air: 'transparent',
+                grass: 'green',
+                dirt: 'brown',
+                stone: 'gray',
+            },
+            display: {
+                width: 20,
+                height: 10,
+            },
+            world: {
+                width: 100,
+                height: 20,
+            },
+            camera: {
+                x: 0,
+                y: 0,
+            },
+            debug: {
+                showCoords: false,
+            }
+        }
+
+        function generateBlocks() {
+            for(let y = 0; y < 20; y++) {
+                game.blocks[y] = [];
+
+                for(let x = 0; x < 100; x++) {
+                    if(y < 5) {
+                        game.blocks[y][x] = 'air';
+                    } 
+                    if (y == 5) {
+                        game.blocks[y][x] = 'grass';
+                    }
+                    if(y > 5 && y < 10) {
+                        game.blocks[y][x] = 'dirt';
+                    }
+                    if(y >= 10) {
+                        game.blocks[y][x] = 'stone';
+                    }
+                }
+            }
+        }
+
+        function generateTrees() {
+            for(let i = 0; i < game.trees; i++) {
+                const x = Math.floor(Math.random() * game.world.width);
+                const y = 4;
+
+                game.blocks[y][x] = 'tree';
+            }
+        }
+
+        function drawBlocks() {
+            const startX = Math.max(0, game.player.x - game.display.width / 2);
+            const endX = Math.max(Math.min(game.world.width, game.player.x + game.display.width / 2), game.display.width);
+
+            const startY = Math.max(0, game.player.y - game.display.height / 2);
+            const endY = Math.max(Math.min(game.world.height, game.player.y + game.display.height / 2), game.display.height);
+
+            game.camera.x = startX;
+            game.camera.y = startY;
+
+            for(let y = startY; y < endY; y++) {
+                const row = document.createElement('tr');
+                table.appendChild(row);
+
+                for(let x = startX; x < endX; x++) {
+                    const block = document.createElement('td');
+                    if(game.blocks[y][x] == 'tree') {
+                        block.textContent = '🌲';
+                    } else {
+                        block.style.background = game.colorMap[game.blocks[y][x]] || 'transparent';
+                    }
+                    
+                    if(game.debug.showCoords) {
+                        block.textContent += `${x}, ${y}`;
+                    }
+
+                    row.appendChild(block);
+                }
+            }
+        }
+
+        function drawPlayer() {
+            const playerX = game.player.x - game.camera.x;
+            const playerY = game.player.y - game.camera.y;
+
+            const playerBlock = table.children[playerY].children[playerX];
+            playerBlock.innerHTML = '🕴️'
+            playerBlock.style.background = 'transparent';
+            playerBlock.style.fontSize = '2rem';
+        }
+
+        function gameLoop() {
+            if(game.player.y == game.world.height - 1) {
+                clearInterval(loop);
+                die();
+            }
+
+            table.innerHTML = '';
+            drawBlocks();
+            drawPlayer();
+
+            if(game.blocks[game.player.y + 1][game.player.x] == 'air') {
+                game.player.y++;
+            }
+        }
+
+        function die() {
+            document.body.style.backgroundColor = 'black';
+            document.body.style.color = 'red';
+            document.body.style.fontSize = '5rem';
+            document.body.style.textAlign = 'center';
+
+            document.body.innerHTML = 'you fkin died lmao';
+            
+            document.body.appendChild(document.createElement('br'));
+
+            const img = document.createElement('img');
+            img.src = './hell yeah.gif';
+            img.style.width = '100%';
+            document.body.appendChild(img);
+
+            document.body.appendChild(document.createElement('br'));
+            
+            document.body.appendChild(a);
+        }
+
+        generateBlocks();
+        generateTrees();
+
+        const loop = setInterval(gameLoop, 1000 / game.fps);
+
+        window.addEventListener('keydown', e => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    if(game.player.x == 0) return;
+                    if(!['air', 'tree'].includes(game.blocks[game.player.y][game.player.x - 1])) return;
+
+                    game.player.x--;
+                    break;
+                case 'ArrowRight':
+                    if(game.player.x == game.world.width - 1) return;
+                    if(!['air', 'tree'].includes(game.blocks[game.player.y][game.player.x + 1])) return;
+
+                    game.player.x++;
+                    break;
+                case 'ArrowUp':
+                    if(game.player.y == 0) return;
+                    if(!['air', 'tree'].includes(game.blocks[game.player.y - 1][game.player.x])) return;
+
+                    game.player.y--;
+                    break;
+            }
+        });
+
+        window.addEventListener('click', (e) => {
+            if(e.target.tagName == 'TD') {
+                const x = e.target.cellIndex + game.camera.x;
+                const y = e.target.parentElement.rowIndex + game.camera.y;
+
+                game.blocks[y][x] = 'air';
+            }
+        });
+    </script>
+    
+</body>
+</html>
