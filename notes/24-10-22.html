@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i forgot again</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+
+            padding: 2rem;
+        }
+
+        p {
+            font-weight: bold;
+            font-size: 3rem;
+        }
+
+        div {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div style="color: #7e7eff">
+        <p>i forgot to make a note again</p>
+    </div>
+
+    <br><br>
+
+    <div style="width: 100%; text-align: center; color: #ff2c2c;">
+        <p>it's not like i was doing anything else</p>
+        <p>just forgot</p>
+    </div>
+    
+    <br><br>
+
+    <div style="width: 100%; text-align: end; color: #3bff76;">
+        <p>but it's fine</p>
+        <p>it's not like this is anything crucial</p>
+    </div>
+
+    <br><br><br>
+
+    <p>It still would have been nice to have a note <a href="24-10-21">here</a></p>
+
+    <br><br>
+
+    <a href="../">go back</a>
+
+    <script>
+        const ps = document.querySelectorAll('p');
+
+        ps.forEach(p => {
+            p.addEventListener('mouseover', () => {
+                const color = p.style.color;
+                p.style.textShadow = '0 0 1rem ' + color;
+            })
+        });
+    </script>
+</body>
+</html>
