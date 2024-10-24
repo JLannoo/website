@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>things change</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+        }
+
+        hidden {
+            display: none;
+
+            color: #ddd
+        }
+    </style>
+</head>
+<body>
+    <p>things are changing</p>
+
+    <br>
+    <br>
+
+    <hidden>
+        <p>fast</p>
+        <p>slow</p>
+        <p>medium</p>
+        <p>not at all</p>
+
+        <br>
+
+        <sub>maybe too much?</sub>
+        <br>
+        <sub><sub>idk</sub></sub>
+    </hidden>
+
+    <br>
+    <br>
+
+    <a href="../">go back</a>
+
+    <script>
+        const p = document.querySelector('p');
+        const text = p.textContent;
+        const letters = text.split('');
+
+        setInterval(() => {
+            const spans = letters.map(letter => {
+                const span = document.createElement('span');
+                
+                const size = Math.random() * 4 + 2;
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+                span.textContent = letter;
+                span.style.fontSize = `${size}rem`;
+                span.style.color = color;
+                return span;
+            });
+            
+            p.textContent = '';
+            spans.forEach(span => p.appendChild(span));
+        }, 100);
+
+        setTimeout(() => {
+            const hidden = document.querySelector('hidden');
+            hidden.style.display = 'block';
+        }, 5000);
+    </script>
+</body>
+</html>
