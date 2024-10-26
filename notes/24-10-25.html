@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fuck you</title>
+
+    <style>
+        span {
+            font-size: 4rem;
+            letter-spacing: 10rem;
+
+            transition: 
+                top 0.2s linear,
+                left 0.2s linear;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const string = "fuck you";
+        const rainbow = [
+            "#e81416",
+            "#ffa500",
+            "#faeb36",
+            "#79c314",
+            "#487de7",
+            "#4b369d",
+            "#70369d",
+        ]
+
+        string.split("").map(e => {
+            const span = document.createElement("span");
+            span.textContent = e;
+            span.style.position = "absolute";
+            span.style.color = rainbow[(document.body.childElementCount % rainbow.length)];
+            
+            document.body.appendChild(span);
+        })
+
+        const spans = Array.from(document.querySelectorAll("span"));
+        const positions = Array(spans.length).fill({ x: 0, y: 0 });
+
+        document.addEventListener("mousemove", (event) => {
+            positions.unshift({ x: event.clientX, y: event.clientY });
+            positions.pop();
+        });
+
+        function updatePositions() {
+            spans.forEach((span, index) => {
+                const pos = positions[index];
+                span.style.top = `${pos.y}px`;
+                span.style.left = `${pos.x}px`;
+            });
+            requestAnimationFrame(updatePositions);
+        }
+
+        updatePositions();
+    </script>
+</body>
+</html>
