@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>it has been a while</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Delius', sans-serif;
+            background-color: #f3ead7;
+            color: #333;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        h2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+
+            font-size: 3rem;
+
+            animation: appear 1s forwards;
+        }
+
+        @keyframes appear {
+            from {
+                transform: translate(-50%, -1000%) scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        box {
+            display: inline-block;
+            padding: 10px;
+            background-color: red;
+            cursor: grab;
+
+            color: white;
+            font-size: 2rem;
+        }
+
+        container {
+            display: inline-block;
+            padding: 1rem;
+            margin: auto;
+            background-color: #6b3200;
+
+            color: white;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>h1! welcom back? it's been a while, right?</h1>
+
+    <br><br><br><br>
+
+    <p>i've been putting things into places</p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        different places that they were before
+        <sub><sub><sub> obviusly</sub></sub></sub>
+    </p>
+
+    <br><br><br><br>
+
+    <p>would you help?</p>
+
+    <br>
+
+    <p>it's not that hard</p>
+    <p>i trust you can do it :)</p>
+    <p>just put da thing in the place</p>
+
+    <br><br><br>
+
+    <div>
+        <box draggable="true">thing</box>
+        <container>place</container>
+    </div>
+
+    <br><br><br><br>
+
+    <h2 hidden>thank you, that was very nice of you :)</h2>
+
+    <br><br><br><br>
+
+    <a href="../">go back</a>
+
+    <script>
+        const box = document.querySelector('box');
+        const container = document.querySelector('container');
+        const hidden = document.querySelector('h2[hidden]');
+
+        box.addEventListener('dragstart', () => {
+            box.style.opacity = 0.5;
+        });
+
+        box.addEventListener('dragend', () => {
+            box.style.opacity = 1;
+        });
+
+        container.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+
+        container.addEventListener('drop', e => {
+            box.remove();
+
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+            });
+
+            hidden.removeAttribute('hidden');
+        });
+    </script>
+</body>
+</html>
