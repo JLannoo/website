@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>box</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            background-color: black;
+            color: white;
+            font-size: 1.5rem;
+
+            width: 100%;
+            height: 100dvh;
+            margin: 0;
+        }
+
+        box {
+            --size: 200px;
+            
+            width: var(--size);
+            height: var(--size);
+
+            display: inline-block;
+            padding: 1rem;
+            background-color: hsl(0, 0%, 100%);
+            color: black;
+            font-size: 2rem;
+
+            --time: 0.5s;
+
+            transition: opacity var(--time), filter var(--time);
+        }
+
+        container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+        }
+
+        container text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+            z-index: -1;
+        }
+
+        text {
+            display: inline-block;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <text>    
+        <p>i've been 
+            <font color="pink">filling</font>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp;this box for a long time
+        </p>
+
+        <br>
+        <br>
+
+        <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <font color="darkgray">yet it remains empty</font> 
+        </p>
+    </text>
+
+    <container>
+        <box>
+            feed me
+        </box>
+        <text>
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <font color="#444444">how could shapes <br> fill a shapeless box</font>
+            </p>
+        </text>
+    </container>
+
+
+    <script>
+        const box = document.querySelector('box');
+
+        const boxOptions = {
+            opacity: 1,
+            blurRadius: 0,
+        }
+
+        function onStartDrag(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text', e.target.id);
+        }
+
+        function onDrop(e) {
+            const id = e.dataTransfer.getData('text');
+            const rectangle = document.getElementById(id);
+
+            rectangle.remove();
+            
+            boxOptions.opacity -= 0.075;
+            boxOptions.blurRadius += 10;
+
+            box.style.opacity = boxOptions.opacity;
+            box.style.filter = `blur(${boxOptions.blurRadius}px)`;
+
+            if (boxOptions.opacity <= 0) {
+                history.back();
+            }
+
+            document.body.appendChild(getShape());
+        } 
+        box.addEventListener('drop', onDrop);
+        box.addEventListener('dragover', e => e.preventDefault());
+        
+
+        function getRectangle() {
+            const width = Math.random() * 100 + 50;
+            const height = Math.random() * 100 + 50;
+
+            const x = Math.max(Math.random() * window.innerWidth - width, 0);
+            const y = Math.max(Math.random() * window.innerHeight - height, 0);
+
+            const rectangle = document.createElement('div');
+            rectangle.style.width = `${width}px`;
+            rectangle.style.height = `${height}px`;
+            rectangle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+            rectangle.style.position = 'absolute';
+            rectangle.style.left = `${x}px`;
+            rectangle.style.top = `${y}px`;
+
+            rectangle.innerText = 'shape';
+            rectangle.id = Math.random().toString(16).slice(2)
+
+            rectangle.draggable = true;
+            rectangle.addEventListener('dragstart', onStartDrag);
+
+            return rectangle;
+        }
+
+        function getTriangle() {
+            const rect = getRectangle();
+            rect.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+            return rect;
+        }        
+
+        function getCircle() {
+            const rect = getRectangle();
+            rect.style.borderRadius = '50%';
+            return rect;
+        }
+
+        function getShape() {
+            const shapes = [getRectangle, getTriangle, getCircle];
+            return shapes[Math.floor(Math.random() * shapes.length)]();
+        }
+
+        for(let i = 0; i < 5; i++) {
+            document.body.appendChild(getShape());
+        }
+    </script>
+</body>
+</html>
